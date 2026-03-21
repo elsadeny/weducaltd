@@ -504,9 +504,24 @@
                         You</span>
                     <h2 class="text-4xl md:text-5xl font-extrabold text-navy mb-8">Get in Touch</h2>
 
-                    <!-- Contact info card -->
                     <div class="bg-gray-50 rounded-3xl p-8 shadow-sm border border-gray-100 space-y-8">
+                        <!-- Founder Info -->
                         <div class="flex items-start group">
+                            <div class="flex-shrink-0 mt-1">
+                                <div
+                                    class="w-14 h-14 bg-teal/10 text-teal rounded-2xl flex items-center justify-center group-hover:bg-teal group-hover:text-white transition-colors shadow-sm">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-6">
+                                <h4 class="text-xl font-bold text-navy">EMMANUEL KANAMUGIRE</h4>
+                                <p class="text-gray-600 mt-2 text-lg">Founder & Managing Director</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start group border-t border-gray-200 pt-8">
                             <div class="flex-shrink-0 mt-1">
                                 <div
                                     class="w-14 h-14 bg-teal/10 text-teal rounded-2xl flex items-center justify-center group-hover:bg-teal group-hover:text-white transition-colors shadow-sm">
