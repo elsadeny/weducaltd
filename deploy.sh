@@ -132,6 +132,7 @@ chmod -R 775 "$APP_DIR/storage" "$APP_DIR/bootstrap/cache"
 
 # ─── 8. NGINX CONFIGURATION ──────────────────────────────────────────────────
 echo "[8/10] Configuring Nginx..."
+rm -f /etc/nginx/sites-enabled/default
 cat > "$NGINX_CONF" <<EOF
 server {
     listen 80;
