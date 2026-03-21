@@ -520,7 +520,7 @@
                             </div>
                             <div class="ml-6">
                                 <h4 class="text-xl font-bold text-navy">Our Offices</h4>
-                                <p class="text-gray-600 mt-2 text-lg">Kigali, Rwanda<br>Bujumbura, Burundi</p>
+                                <p class="text-gray-600 mt-2 text-lg">Rubirizi, KK 225 Street<br>Kigali, Rwanda</p>
                             </div>
                         </div>
 
@@ -552,7 +552,7 @@
                             </div>
                             <div class="ml-6">
                                 <h4 class="text-xl font-bold text-navy">Email Address</h4>
-                                <p class="text-gray-600 mt-2 text-lg">info@weducaapplyltd.com</p>
+                                <p class="text-gray-600 mt-2 text-lg">admissions.weducaapply@gmail.com</p>
                             </div>
                         </div>
                     </div>
