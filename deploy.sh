@@ -16,6 +16,7 @@ APP_DIR="/var/www/$APP_NAME"
 NGINX_CONF="/etc/nginx/sites-available/$APP_NAME"
 PHP_VERSION="8.2"
 GIT_REPO="https://github.com/elsadeny/weducaltd.git"
+DOMAIN="weduca.aphezis.com"
 
 # Prompt for required values
 echo ""
@@ -24,8 +25,8 @@ echo "║        WeducaApply — VPS Deployment Script           ║"
 echo "╚══════════════════════════════════════════════════════╝"
 echo ""
 
-echo "📦 Repo: $GIT_REPO"
-read -rp "🌐 Domain name (e.g. weducaapply.com): " DOMAIN
+echo "📦 Repo:   $GIT_REPO"
+echo "🌐 Domain: $DOMAIN"
 read -rp "🗄️  DB name: " DB_NAME
 read -rp "🗄️  DB username: " DB_USER
 read -rsp "🔑 DB password: " DB_PASS
@@ -109,8 +110,10 @@ sed -i "s|# DB_PASSWORD=.*|DB_PASSWORD=$DB_PASS|" .env
 
 # ─── 6. INSTALL APP DEPENDENCIES ─────────────────────────────────────────────
 echo "[6/10] Installing PHP & JS dependencies..."
-composer install --no-dev --optimize-autoloader --no-interaction -q
-npm install --silent
+# Remove lock file so Composer regenerates it for this server's PHP platform
+rm -f composer.lock
+COMPOSER_ALLOW_SUPERUSER=1 composer update --no-dev --optimize-autoloader --no-interaction
+npm install
 npm run build
 
 # ─── 7. LARAVEL SETUP ────────────────────────────────────────────────────────
