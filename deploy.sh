@@ -63,8 +63,8 @@ apt-get install -y -q nginx
 # MySQL
 apt-get install -y -q mysql-server
 
-# Node.js 18
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+# Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get install -y -q nodejs
 
 # Composer
