@@ -135,7 +135,7 @@ echo "[8/10] Configuring Nginx..."
 cat > "$NGINX_CONF" <<EOF
 server {
     listen 80;
-    server_name $DOMAIN www.$DOMAIN;
+    server_name $DOMAIN;
     root $APP_DIR/public;
 
     index index.php;
@@ -172,7 +172,7 @@ nginx -t && systemctl reload nginx
 echo "[9/10] Installing SSL certificate..."
 apt-get install -y -q certbot python3-certbot-nginx
 certbot --nginx \
-    -d "$DOMAIN" -d "www.$DOMAIN" \
+    -d "$DOMAIN" \
     --email "$SSL_EMAIL" \
     --agree-tos \
     --non-interactive \
