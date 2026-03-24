@@ -66,6 +66,23 @@
                         <p class="text-gray-600 leading-relaxed mb-4">Moving to a new country requires peace of mind. We assist in securing safe, comfortable, and affordable student accommodation near your chosen university campus.</p>
                     </div>
                 </div>
+
+                <!-- Service 5 -->
+                <div class="flex gap-6">
+                    <div class="flex-shrink-0 mt-1">
+                        <div class="w-12 h-12 bg-teal text-white rounded-full flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-navy mb-3">Work Abroad & Career Placement</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">We assist professionals in securing lucrative job placements overseas. From finalizing your resume to navigating international employment pathways and work visas, we ensure a smooth transition into your global career.</p>
+                        <ul class="space-y-2 text-gray-500 text-sm">
+                            <li class="flex items-center"><svg class="w-4 h-4 text-teal mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Resume polishing & employer matching</li>
+                            <li class="flex items-center"><svg class="w-4 h-4 text-teal mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Work permit processing support</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
