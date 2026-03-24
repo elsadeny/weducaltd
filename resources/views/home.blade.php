@@ -7,7 +7,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-32">
             <div class="max-w-3xl animate-on-scroll">
                 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 mt-12 leading-tight">
-                    Your Gateway to <br><span class="text-teal">Global Education</span>
+                    Your Gateway to <br><span class="text-teal">Global Education & Careers</span>
                 </h1>
                 <p
                     class="text-xl md:text-2xl text-gray-300 mb-10 leading-relaxed font-light animate-on-scroll delay-100">
@@ -485,7 +485,39 @@
                             </div>
                         @endforeach
                     @else
-                        <p class="text-gray-400 col-span-full text-center py-10">Work destinations coming soon.</p>
+                        <!-- Fallback data - 3 work destinations -->
+                        <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700 flex flex-col group animate-on-scroll">
+                            <div class="h-56 bg-gradient-to-br from-indigo-700 to-gray-900 flex items-center justify-center relative">
+                                <span class="text-7xl">🇵🇱</span>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-bold text-white mb-3">Poland</h3>
+                                <p class="text-gray-400 mb-6 flex-1 leading-relaxed">A growing hub in Europe offering immense career prospects in tech, healthcare, and engineering with a high standard of living.</p>
+                                <a href="#apply" class="text-teal font-bold hover:text-white mt-auto inline-flex items-center group-hover:translate-x-2 transition-transform">Apply for Poland <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700 flex flex-col group animate-on-scroll delay-100">
+                            <div class="h-56 bg-gradient-to-br from-teal-700 to-gray-900 flex items-center justify-center relative">
+                                <span class="text-7xl">🇩🇪</span>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-bold text-white mb-3">Germany</h3>
+                                <p class="text-gray-400 mb-6 flex-1 leading-relaxed">Europe's largest economy is actively seeking skilled professionals to join their dynamic workforce in diverse industries.</p>
+                                <a href="#apply" class="text-teal font-bold hover:text-white mt-auto inline-flex items-center group-hover:translate-x-2 transition-transform">Apply for Germany <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700 flex flex-col group animate-on-scroll delay-200">
+                            <div class="h-56 bg-gradient-to-br from-red-700 to-gray-900 flex items-center justify-center relative">
+                                <span class="text-7xl">🇨🇦</span>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <h3 class="text-2xl font-bold text-white mb-3">Canada</h3>
+                                <p class="text-gray-400 mb-6 flex-1 leading-relaxed">Embrace exceptional work-life balance and progressive immigration pathways in one of the most welcoming nations globally.</p>
+                                <a href="#apply" class="text-teal font-bold hover:text-white mt-auto inline-flex items-center group-hover:translate-x-2 transition-transform">Apply for Canada <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></a>
+                            </div>
+                        </div>
                     @endif
                 </div>
             </div>
