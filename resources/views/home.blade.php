@@ -260,7 +260,7 @@
             <div id="panel-study-dest" class="dest-panel block">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @if(isset($studyDestinations) && $studyDestinations->count() > 0)
-                        @foreach($studyDestinations as $index => $destination)
+                        @foreach($studyDestinations->take(6) as $index => $destination)
                         <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col group animate-on-scroll"
                             style="transition-delay: {{ $index * 100 }}ms">
                             @if($destination->image)
@@ -294,6 +294,14 @@
                             </div>
                         </div>
                     @endforeach
+                    
+                    @if($studyDestinations->count() > 6)
+                        <a href="{{ route('destinations') }}" class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col items-center justify-center group animate-on-scroll min-h-[300px]">
+                            <span class="text-6xl text-teal mb-4 group-hover:scale-125 transition-transform duration-500">+{{ $studyDestinations->count() - 6 }}</span>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-teal transition-colors">More Study Options</h3>
+                            <p class="text-gray-400 mt-2 flex items-center">Explore All <svg class="w-5 h-5 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></p>
+                        </a>
+                    @endif
                 @else
                             <!-- Fallback data - 6 destinations with full photos -->
                             <!-- United Kingdom -->
@@ -462,7 +470,7 @@
             <div id="panel-work-dest" class="dest-panel hidden">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @if(isset($workDestinations) && $workDestinations->count() > 0)
-                        @foreach($workDestinations as $index => $destination)
+                        @foreach($workDestinations->take(6) as $index => $destination)
                             <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col group animate-on-scroll" style="transition-delay: {{ min($index * 50, 500) }}ms">
                                 @if($destination->image)
                                     <div class="h-56 overflow-hidden relative">
@@ -484,6 +492,14 @@
                                 </div>
                             </div>
                         @endforeach
+                        
+                        @if($workDestinations->count() > 6)
+                            <a href="{{ route('destinations') }}" class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col items-center justify-center group animate-on-scroll min-h-[300px]">
+                                <span class="text-6xl text-teal mb-4 group-hover:scale-125 transition-transform duration-500">+{{ $workDestinations->count() - 6 }}</span>
+                                <h3 class="text-2xl font-bold text-white group-hover:text-teal transition-colors">More Work Options</h3>
+                                <p class="text-gray-400 mt-2 flex items-center">Explore All <svg class="w-5 h-5 ml-1 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></p>
+                            </a>
+                        @endif
                     @else
                         <!-- Fallback data - 3 work destinations -->
                         <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700 flex flex-col group animate-on-scroll">

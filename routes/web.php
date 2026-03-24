@@ -8,6 +8,12 @@ Route::get('/', function () {
     return view('home', compact('studyDestinations', 'workDestinations', 'team')); 
 })->name('home');
 
+Route::get('/destinations', function () {
+    $studyDestinations = \App\Models\Destination::where('category', 'study')->get();
+    $workDestinations = \App\Models\Destination::where('category', 'work')->get();
+    return view('destinations', compact('studyDestinations', 'workDestinations'));
+})->name('destinations');
+
 Route::post('/contact', function (\Illuminate\Http\Request $request) {
     $validated = $request->validate([
         'name' => 'required|string|max:255',
