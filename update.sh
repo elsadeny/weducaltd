@@ -27,7 +27,7 @@ echo "[2/6] Pulling latest changes from GitHub..."
 git pull origin main
 
 echo "[3/6] Installing/Updating Composer dependencies..."
-COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction --no-audit
+COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
 echo "[4/6] Installing/Updating NPM dependencies & building assets..."
 npm install

@@ -113,7 +113,7 @@ sed -i "s|# DB_PASSWORD=.*|DB_PASSWORD=$DB_PASS|" .env
 echo "[6/10] Installing PHP & JS dependencies..."
 # Remove lock file so Composer regenerates it for this server's PHP platform
 rm -f composer.lock
-COMPOSER_ALLOW_SUPERUSER=1 composer update --no-dev --optimize-autoloader --no-interaction --no-audit
+COMPOSER_ALLOW_SUPERUSER=1 composer update --no-dev --optimize-autoloader --no-interaction
 npm install
 npm run build
 
