@@ -54,5 +54,27 @@ echo "Bringing application back up..."
 php artisan up
 
 echo "================================================="
-echo " ✅ Update completed successfully!"
+echo " ✅ Application Update completed!"
 echo "================================================="
+
+echo ""
+read -rp "Do you need to update the Domain / SSL Certificate? (e.g. weducaapply.rw) [Leave blank to skip]: " NEW_DOMAIN
+
+if [ -n "$NEW_DOMAIN" ]; then
+    echo "🔄 Updating Nginx & .env for $NEW_DOMAIN..."
+    
+    # 1. Update Laravel .env
+    sed -i "s|APP_URL=.*|APP_URL=https://$NEW_DOMAIN|" "$APP_DIR/.env"
+    
+    # 2. Update Nginx configuration
+    if [ -f "/etc/nginx/sites-available/$APP_NAME" ]; then
+        sed -i "s/server_name .*/server_name $NEW_DOMAIN;/g" /etc/nginx/sites-available/$APP_NAME
+        nginx -t && systemctl reload nginx
+    fi
+    
+    # 3. Request new SSL via Certbot
+    echo "🔒 Requesting SSL certificate for $NEW_DOMAIN..."
+    certbot --nginx -d "$NEW_DOMAIN" --non-interactive --agree-tos --redirect --register-unsafely-without-email || echo "⚠️ Certbot encountered an issue, check logs."
+    
+    echo "✅ Domain & SSL updated successfully!"
+fi
