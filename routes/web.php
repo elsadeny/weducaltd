@@ -2,9 +2,10 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { 
-    $destinations = \App\Models\Destination::all();
+    $studyDestinations = \App\Models\Destination::where('category', 'study')->get();
+    $workDestinations = \App\Models\Destination::where('category', 'work')->get();
     $team = \App\Models\TeamMember::all();
-    return view('home', compact('destinations', 'team')); 
+    return view('home', compact('studyDestinations', 'workDestinations', 'team')); 
 })->name('home');
 
 Route::post('/contact', function (\Illuminate\Http\Request $request) {

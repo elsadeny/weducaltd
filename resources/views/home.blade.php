@@ -245,15 +245,22 @@
             <div class="text-center mb-16 animate-on-scroll">
                 <span class="text-teal font-bold tracking-wider uppercase text-sm">Where To?</span>
                 <h2 class="text-4xl md:text-5xl font-extrabold mt-2">Top Destinations</h2>
-                <div class="w-24 h-1.5 bg-teal mx-auto mt-6 rounded-full"></div>
-                <p class="text-gray-300 text-lg mt-6 max-w-2xl mx-auto">
-                    Explore educational powerhouses across Europe, the Americas, and Oceania.
-                </p>
+                <div class="w-24 h-1.5 bg-teal mx-auto mt-6 rounded-full mb-8"></div>
+                
+                <div class="flex justify-center mb-10 animate-on-scroll">
+                    <div class="inline-flex bg-gray-800 rounded-full p-1 relative border border-gray-700">
+                        <div id="dest-tab-pill" class="absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-teal rounded-full transition-all duration-300 ease-in-out"></div>
+                        <button type="button" onclick="switchDestTab('study')" id="tab-study-btn" class="relative z-10 px-6 py-3 text-sm font-bold text-white transition-colors duration-200 focus:outline-none w-40 sm:w-48 text-center">Study Abroad</button>
+                        <button type="button" onclick="switchDestTab('work')" id="tab-work-btn" class="relative z-10 px-6 py-3 text-sm font-bold text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none w-40 sm:w-48 text-center">Work Abroad</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @if(isset($destinations) && $destinations->count() > 0)
-                    @foreach($destinations as $index => $destination)
+            <!-- Panel: Study -->
+            <div id="panel-study-dest" class="dest-panel block">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @if(isset($studyDestinations) && $studyDestinations->count() > 0)
+                        @foreach($studyDestinations as $index => $destination)
                         <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col group animate-on-scroll"
                             style="transition-delay: {{ $index * 100 }}ms">
                             @if($destination->image)
@@ -447,9 +454,41 @@
                             </div>
                         </div>
                     </div>
-                @endif
-        </div>
-        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Panel: Work -->
+            <div id="panel-work-dest" class="dest-panel hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @if(isset($workDestinations) && $workDestinations->count() > 0)
+                        @foreach($workDestinations as $index => $destination)
+                            <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl hover:shadow-teal/20 hover:shadow-3xl transition-all duration-300 border border-gray-700 flex flex-col group animate-on-scroll" style="transition-delay: {{ min($index * 50, 500) }}ms">
+                                @if($destination->image)
+                                    <div class="h-56 overflow-hidden relative">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent z-10"></div>
+                                        <img src="{{ Storage::url($destination->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="{{ $destination->name }}">
+                                        <span class="absolute bottom-4 right-4 text-4xl z-20">{{ $destination->flag_emoji }}</span>
+                                    </div>
+                                @else
+                                    <div class="h-56 bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center relative">
+                                        <span class="text-7xl">{{ $destination->flag_emoji }}</span>
+                                    </div>
+                                @endif
+                                <div class="p-8 flex-1 flex flex-col">
+                                    <h3 class="text-2xl font-bold text-white mb-4">{{ $destination->name }}</h3>
+                                    <p class="text-gray-400 mb-8 flex-1 leading-relaxed">{{ $destination->description }}</p>
+                                    <a href="#apply" onclick="document.getElementById('message').value = 'I want to work in {{ $destination->name }}';" class="text-teal font-bold hover:text-white mt-auto inline-flex items-center group-hover:translate-x-2 transition-transform">
+                                        Apply for Work <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-gray-400 col-span-full text-center py-10">Work destinations coming soon.</p>
+                    @endif
+                </div>
+            </div>
     </section>
 
     <!-- Support / Contact Section -->
@@ -779,4 +818,38 @@
 
         </div>
     </section>
+
+    <script>
+        function switchDestTab(tab) {
+            const studyBtn = document.getElementById('tab-study-btn');
+            const workBtn = document.getElementById('tab-work-btn');
+            const studyPanel = document.getElementById('panel-study-dest');
+            const workPanel = document.getElementById('panel-work-dest');
+            const pill = document.getElementById('dest-tab-pill');
+
+            if (tab === 'study') {
+                studyBtn.classList.replace('text-gray-400', 'text-white');
+                studyBtn.classList.remove('hover:text-white');
+                workBtn.classList.replace('text-white', 'text-gray-400');
+                workBtn.classList.add('hover:text-white');
+                pill.style.left = '4px';
+                
+                studyPanel.classList.remove('hidden');
+                studyPanel.classList.add('block');
+                workPanel.classList.add('hidden');
+                workPanel.classList.remove('block');
+            } else {
+                workBtn.classList.replace('text-gray-400', 'text-white');
+                workBtn.classList.remove('hover:text-white');
+                studyBtn.classList.replace('text-white', 'text-gray-400');
+                studyBtn.classList.add('hover:text-white');
+                pill.style.left = 'calc(50% - 4px)';
+
+                workPanel.classList.remove('hidden');
+                workPanel.classList.add('block');
+                studyPanel.classList.add('hidden');
+                studyPanel.classList.remove('block');
+            }
+        }
+    </script>
 </x-layout>

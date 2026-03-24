@@ -23,6 +23,13 @@ class DestinationResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('category')
+                    ->options([
+                        'study' => 'Study Abroad',
+                        'work' => 'Work Abroad',
+                    ])
+                    ->required()
+                    ->default('study'),
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('flag_emoji'),
@@ -38,6 +45,14 @@ class DestinationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('category')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'study' => 'success',
+                        'work' => 'warning',
+                        default => 'gray',
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('flag_emoji')
                     ->searchable(),
