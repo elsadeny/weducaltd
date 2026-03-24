@@ -16,7 +16,7 @@ APP_DIR="/var/www/$APP_NAME"
 NGINX_CONF="/etc/nginx/sites-available/$APP_NAME"
 PHP_VERSION="8.2"
 GIT_REPO="https://github.com/elsadeny/weducaltd.git"
-DOMAIN="weduca.aphezis.com"
+DOMAIN="weducaapply.rw"
 
 # Prompt for required values
 echo ""
