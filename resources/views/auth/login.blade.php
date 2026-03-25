@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In — WeducaApply</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="font-sans antialiased bg-gray-50 min-h-screen flex items-center justify-center">
+<x-layout title="Sign In">
 
-<div class="flex min-h-screen w-full">
+<div class="flex w-full min-h-[calc(100vh-220px)]">
 
     {{-- Left branding panel --}}
     <div class="hidden lg:flex lg:w-1/2 bg-navy flex-col justify-between p-12 relative overflow-hidden">
@@ -18,8 +9,7 @@
         </div>
         <div class="relative z-10">
             <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                <div class="w-10 h-10 bg-teal text-white rounded-lg flex justify-center items-center font-bold text-xl">W</div>
-                <span class="font-bold text-2xl text-white tracking-tight">Weduca<span class="text-teal">Apply</span></span>
+                <img src="{{ asset('images/logo.png') }}" alt="Weduca Apply Ltd" class="h-12 w-auto object-contain">
             </a>
         </div>
         <div class="relative z-10 text-white">
@@ -43,8 +33,7 @@
             {{-- Mobile logo --}}
             <div class="lg:hidden mb-8 text-center">
                 <a href="{{ route('home') }}" class="inline-flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-navy text-white rounded-lg flex justify-center items-center font-bold text-xl">W</div>
-                    <span class="font-bold text-2xl text-navy">Weduca<span class="text-teal">Apply</span></span>
+                    <img src="{{ asset('images/logo.png') }}" alt="Weduca Apply Ltd" class="h-12 w-auto object-contain">
                 </a>
             </div>
 
@@ -109,5 +98,5 @@
     </div>
 
 </div>
-</body>
-</html>
+
+</x-layout>

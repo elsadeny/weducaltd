@@ -13,7 +13,7 @@
 
 <body class="font-sans antialiased text-gray-800 bg-gray-50 flex flex-col min-h-screen">
 @php
-    $siteLogo      = \App\Models\Setting::get('logo');
+    $siteLogoUrl   = asset('images/logo.png');
     $siteName      = \App\Models\Setting::get('site_name', 'WeducaApply');
     $contactEmail  = \App\Models\Setting::get('contact_email', 'admissions.weducaapply@gmail.com');
     $contactPhone  = \App\Models\Setting::get('contact_phone', '+250 789 000 213');
@@ -51,17 +51,7 @@
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center space-x-2 shrink-0">
-                        @if($siteLogo)
-                            <img src="{{ Storage::url($siteLogo) }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain">
-                        @else
-                            <div
-                                class="w-10 h-10 bg-navy text-white rounded-lg flex justify-center items-center font-bold text-xl relative overflow-hidden">
-                                W
-                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-teal rounded-tl-full"></div>
-                            </div>
-                            <span class="font-bold text-2xl text-navy tracking-tight">Weduca<span
-                                    class="text-teal">Apply</span></span>
-                        @endif
+                        <img src="{{ $siteLogoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain">
                     </a>
                 </div>
 
@@ -131,8 +121,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                 <div class="col-span-1 md:col-span-1">
                     <a href="{{ route('home') }}" class="flex items-center space-x-2 shrink-0 mb-6">
-                        <span class="font-bold text-2xl text-white tracking-tight">Weduca<span
-                                class="text-teal">Apply</span></span>
+                        <img src="{{ $siteLogoUrl }}" alt="{{ $siteName }}" class="h-12 w-auto object-contain">
                     </a>
                     <p class="text-gray-300 mb-6 text-sm">Empowering students to achieve their international education
                         dreams. We connect you with 1500+ universities worldwide.</p>

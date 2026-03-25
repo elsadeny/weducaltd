@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Student Portal' }} — WeducaApply</title>
+    <title>{{ $title ?? 'User Portal' }} — WeducaApply</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -13,19 +13,19 @@
 <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-navy flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
     {{-- Logo --}}
     <div class="flex items-center space-x-3 px-6 py-5 border-b border-white/10">
-        <div class="w-9 h-9 bg-teal rounded-lg flex items-center justify-center font-bold text-white text-lg shrink-0">W</div>
-        <span class="font-bold text-white text-lg tracking-tight">Weduca<span class="text-teal">Apply</span></span>
+        <img src="{{ asset('images/logo.png') }}" alt="Weduca Apply Ltd" class="h-10 w-auto object-contain shrink-0">
+        <span class="font-bold text-white text-base tracking-tight">Weduca Apply Ltd</span>
     </div>
 
     {{-- User badge --}}
     <div class="px-4 py-4 border-b border-white/10">
         <div class="flex items-center space-x-3 bg-white/5 rounded-xl px-3 py-3">
-            <div class="w-9 h-9 rounded-full bg-teal flex items-center justify-center text-white font-bold text-sm shrink-0">
+            <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
             </div>
             <div class="overflow-hidden">
                 <div class="text-white text-sm font-semibold truncate">{{ Auth::user()->name }}</div>
-                <div class="text-gray-400 text-xs truncate">Student</div>
+                <div class="text-gray-400 text-xs truncate">User</div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
         @foreach($navItems as $item)
             <a href="{{ route($item['route']) }}"
                class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150
-                      {{ request()->routeIs($item['route']) ? 'bg-teal text-white shadow-sm' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                      {{ request()->routeIs($item['route']) ? 'bg-indigo-600 text-white shadow-sm' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
                 </svg>
@@ -69,7 +69,7 @@
 </aside>
 
 {{-- Mobile overlay --}}
-<div id="sidebar-overlay" class="fixed inset-0 z-30 bg-black/50 hidden lg:!hidden" onclick="toggleSidebar()"></div>
+<div id="sidebar-overlay" class="fixed inset-0 z-30 bg-black/50 hidden lg:hidden!" onclick="toggleSidebar()"></div>
 
 {{-- Main content --}}
 <div class="flex-1 flex flex-col lg:ml-64 min-h-screen">
@@ -80,11 +80,11 @@
             <button onclick="toggleSidebar()" class="lg:hidden text-gray-500 hover:text-navy">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
-            <h1 class="text-xl font-bold text-navy">{{ $title ?? 'Student Portal' }}</h1>
+            <h1 class="text-xl font-bold text-navy">{{ $title ?? 'User Portal' }}</h1>
         </div>
         <div class="flex items-center space-x-3">
             <a href="{{ route('student.applications.create') }}"
-               class="bg-teal text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-teal-light transition shadow-sm">
+               class="bg-indigo-600 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-indigo-700 transition shadow-sm">
                 + New Application
             </a>
         </div>

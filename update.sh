@@ -41,8 +41,14 @@ php artisan migrate --force
 
 echo "[6/7] Enforcing single admin user..."
 php artisan tinker --execute="
+if (!\\Illuminate\\Support\\Facades\\Schema::hasTable('users')) {
+    echo '❌ users table does not exist. Migration failed or not yet applied.' . PHP_EOL;
+    exit(1);
+}
+
 \\App\\Models\\User::query()->where('email', '!=', '${ADMIN_EMAIL}')->delete();
-\\App\\Models\\User::updateOrCreate(
+
+$admin = \\App\\Models\\User::updateOrCreate(
     ['email' => '${ADMIN_EMAIL}'],
     [
         'name' => '${ADMIN_NAME}',
@@ -50,6 +56,9 @@ php artisan tinker --execute="
         'role' => 'admin',
     ]
 );
+
+echo '✅ Admin user ready: ' . $admin->email . PHP_EOL;
+echo '👥 Total users in database: ' . \\App\\Models\\User::count() . PHP_EOL;
 "
 
 echo "[7/7] Clearing and caching application state..."
