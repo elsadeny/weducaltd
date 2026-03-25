@@ -39,16 +39,14 @@ npm run build
 echo "[5/7] Running database migrations..."
 php artisan migrate --force
 
-echo "[6/7] Enforcing single admin user..."
+echo "[6/7] Ensuring admin account exists..."
 php artisan tinker --execute="
 if (!\\Illuminate\\Support\\Facades\\Schema::hasTable('users')) {
     echo '❌ users table does not exist. Migration failed or not yet applied.' . PHP_EOL;
     exit(1);
 }
 
-\\App\\Models\\User::query()->where('email', '!=', '${ADMIN_EMAIL}')->delete();
-
-$admin = \\App\\Models\\User::updateOrCreate(
+\\App\\Models\\User::updateOrCreate(
     ['email' => '${ADMIN_EMAIL}'],
     [
         'name' => '${ADMIN_NAME}',
@@ -57,7 +55,7 @@ $admin = \\App\\Models\\User::updateOrCreate(
     ]
 );
 
-echo '✅ Admin user ready: ' . $admin->email . PHP_EOL;
+echo '✅ Admin account ensured: ${ADMIN_EMAIL}' . PHP_EOL;
 echo '👥 Total users in database: ' . \\App\\Models\\User::count() . PHP_EOL;
 "
 

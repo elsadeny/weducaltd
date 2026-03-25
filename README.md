@@ -48,6 +48,24 @@ Admin panel: [http://localhost:8000/admin](http://localhost:8000/admin)
 
 ## Hosting Guide
 
+### Quick Server Update (download + run automatically)
+
+On your host, run:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/elsadeny/weducaltd/main/run-update.sh)
+```
+
+Optional admin/env overrides:
+
+```bash
+ADMIN_NAME="Admin" \
+ADMIN_EMAIL="admin@weducaapply.com" \
+ADMIN_PASSWORD="admin123456" \
+APP_DIR="/var/www/weducaapply" \
+bash <(curl -fsSL https://raw.githubusercontent.com/elsadeny/weducaltd/main/run-update.sh)
+```
+
 ### Option 1 — Shared Hosting (cPanel / Plesk)
 
 > Best for: simple deployments with low traffic.
