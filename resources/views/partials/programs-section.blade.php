@@ -48,13 +48,13 @@
                             x-transition:leave="transition ease-in duration-150"
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-95"
-                            class="snap-center shrink-0 w-80 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 flex flex-col hover:border-teal/30 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                            class="snap-center shrink-0 w-80 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 @if($prog->category === 'work') hover:border-indigo-200 @else hover:border-teal/30 @endif">
 
                             {{-- Card header --}}
-                            <div class="px-6 py-5 {{ $prog->category === 'work' ? 'bg-indigo-50 border-b border-indigo-100' : 'bg-teal/5 border-b border-teal/10' }}">
+                            <div class="px-6 py-5 @if($prog->category === 'work') bg-indigo-50 border-b border-indigo-100 @else bg-teal/5 border-b border-teal/10 @endif">
                                 <div class="flex justify-between items-start">
-                                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold {{ $prog->category === 'work' ? 'bg-indigo-100 text-indigo-700' : 'bg-teal/20 text-teal' }}">
-                                        {{ $prog->category === 'work' ? '💼 Work' : '📚 Study' }}
+                                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold @if($prog->category === 'work') bg-indigo-100 text-indigo-700 @else bg-teal/20 text-teal @endif">
+                                        @if($prog->category === 'work') 💼 Work @else 📚 Study @endif
                                     </span>
                                     {{-- Flag: for work programs use destination directly; for study use institution's destination --}}
                                     @php
@@ -129,8 +129,8 @@
 
                                 <div class="mt-auto pt-4 border-t border-gray-100">
                                     <a href="{{ route('register') }}"
-                                        class="block w-full py-3 px-4 text-white text-center font-bold rounded-xl transition-colors duration-300 {{ $prog->category === 'work' ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-navy hover:bg-teal' }}">
-                                        Apply for this {{ $prog->category === 'work' ? 'role' : 'program' }}
+                                        class="block w-full py-3 px-4 text-white text-center font-bold rounded-xl transition-colors duration-300 @if($prog->category === 'work') bg-indigo-600 hover:bg-indigo-700 @else bg-navy hover:bg-teal @endif">
+                                        Apply for this @if($prog->category === 'work') role @else program @endif
                                     </a>
                                 </div>
                             </div>
