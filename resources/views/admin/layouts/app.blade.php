@@ -10,25 +10,25 @@
 <body class="font-sans antialiased bg-gray-50 flex min-h-screen">
 
 {{-- Admin Sidebar --}}
-<aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-red-900 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-navy flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
     {{-- Logo --}}
     <div class="flex items-center space-x-3 px-6 py-5 border-b border-white/10">
         <img src="{{ asset('images/logo.png') }}" alt="Weduca Apply Ltd" class="h-10 w-auto object-contain shrink-0">
         <div>
             <span class="font-bold text-white text-base tracking-tight">Weduca Apply Ltd</span>
-            <div class="text-xs text-red-200 font-semibold uppercase tracking-wider">Admin Panel</div>
+            <div class="text-xs text-teal font-semibold uppercase tracking-wider">Admin Panel</div>
         </div>
     </div>
 
     {{-- Admin badge --}}
     <div class="px-4 py-4 border-b border-white/10">
         <div class="flex items-center space-x-3 bg-white/5 rounded-xl px-3 py-3">
-            <div class="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+            <div class="w-9 h-9 rounded-full bg-teal flex items-center justify-center text-white font-bold text-sm shrink-0">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
             </div>
             <div class="overflow-hidden">
                 <div class="text-white text-sm font-semibold truncate">{{ Auth::user()->name }}</div>
-                <div class="text-red-200 text-xs font-semibold uppercase tracking-wider">Administrator</div>
+                <div class="text-teal text-xs font-semibold uppercase tracking-wider">Administrator</div>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
         @foreach($navItems as $item)
             <a href="{{ route($item['route']) }}"
                class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150
-                      {{ request()->routeIs($item['route']) ? 'bg-red-600 text-white shadow-sm' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+                      {{ request()->routeIs($item['route']) ? 'bg-teal text-white shadow-sm' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
                 </svg>
@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="flex items-center space-x-3">
-            <span class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded-full">Admin</span>
+            <span class="bg-teal/10 text-teal text-xs font-bold px-3 py-1 rounded-full">Admin</span>
         </div>
     </header>
 

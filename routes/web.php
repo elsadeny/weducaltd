@@ -23,7 +23,7 @@ Route::get('/', function () {
     if ($programs->count() < 15) {
         $needed = 15 - $programs->count();
         $mockPrograms = collect(range(1, $needed))->map(function ($i) {
-            $isWork = $i % 4 === 0;
+            $isWork = $i % 2 === 0;
             return (object) [
                 'name' => $isWork ? "International Skilled Worker Track {$i}" : "Global Study Pathway {$i}",
                 'category' => $isWork ? 'work' : 'study',
