@@ -5,84 +5,133 @@
         <h2 class="text-xl font-bold text-navy mt-1">Add Program</h2>
     </div>
 
-    <form method="POST" action="{{ route('admin.programs.store') }}" class="max-w-2xl space-y-6">
+    <form method="POST" action="{{ route('admin.programs.store') }}" class="max-w-2xl"
+          x-data="{ category: '{{ old('category', '') }}' }">
         @csrf
+        <input type="hidden" name="category" :value="category">
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
+        {{-- Step 1: Category Picker --}}
+        <div x-show="category === ''" class="space-y-4">
+            <p class="text-sm text-gray-500 mb-6">What type of program are you adding?</p>
 
-            {{-- Institution --}}
-            <div>
-                <label class="block text-sm font-semibold text-navy mb-1.5">Institution <span class="text-red-400">*</span></label>
-                <select name="institution_id" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                    <option value="">— Select Institution —</option>
-                    @foreach($institutions as $inst)
-                        <option value="{{ $inst->id }}" {{ old('institution_id') == $inst->id ? 'selected' : '' }}>
-                            {{ $inst->name }}{{ $inst->destination ? ' — '.$inst->destination->name : '' }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('institution_id')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+            <div class="grid grid-cols-2 gap-5">
+                {{-- Study Card --}}
+                <button type="button" @click="category = 'study'"
+                    class="group flex flex-col items-center justify-center gap-4 bg-white border-2 border-teal/30 hover:border-teal rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none">
+                    <span class="text-5xl">📚</span>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-navy group-hover:text-teal transition">Study Program</div>
+                        <div class="text-xs text-gray-400 mt-1">Degrees, diplomas, certificates</div>
+                    </div>
+                </button>
+
+                {{-- Work Card --}}
+                <button type="button" @click="category = 'work'"
+                    class="group flex flex-col items-center justify-center gap-4 bg-white border-2 border-indigo-200 hover:border-indigo-500 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none">
+                    <span class="text-5xl">💼</span>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-navy group-hover:text-indigo-600 transition">Work Opportunity</div>
+                        <div class="text-xs text-gray-400 mt-1">Jobs, internships, placements</div>
+                    </div>
+                </button>
             </div>
+        </div>
 
-            {{-- Name --}}
-            <div>
-                <label class="block text-sm font-semibold text-navy mb-1.5">Program Name <span class="text-red-400">*</span></label>
-                <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. BSc Computer Science" required
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                @error('name')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
-            </div>
+        {{-- Step 2: Fields (after category chosen) --}}
+        <div x-show="category !== ''" class="space-y-6" x-cloak>
 
-            {{-- Description --}}
-            <div>
-                <label class="block text-sm font-semibold text-navy mb-1.5">Description</label>
-                <textarea name="description" rows="3" placeholder="Short overview of the program..."
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none resize-none">{{ old('description') }}</textarea>
-            </div>
-
-            {{-- Level + Category --}}
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-semibold text-navy mb-1.5">Level</label>
-                    <input type="text" name="level" value="{{ old('level') }}" placeholder="e.g. Bachelor's, Master's, Certificate"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+            {{-- Category badge + change button --}}
+            <div class="flex items-center justify-between bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-3">
+                <div class="flex items-center gap-3">
+                    <span x-text="category === 'study' ? '📚' : '💼'" class="text-2xl"></span>
+                    <div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Category</div>
+                        <div class="font-bold text-navy capitalize" x-text="category === 'study' ? 'Study Program' : 'Work Opportunity'"></div>
+                    </div>
                 </div>
+                <button type="button" @click="category = ''"
+                    class="text-xs text-gray-400 hover:text-navy underline focus:outline-none">Change</button>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
+
+                {{-- Institution --}}
                 <div>
-                    <label class="block text-sm font-semibold text-navy mb-1.5">Category <span class="text-red-400">*</span></label>
-                    <select name="category" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                        <option value="study" {{ old('category', 'study') === 'study' ? 'selected' : '' }}>Study</option>
-                        <option value="work" {{ old('category') === 'work' ? 'selected' : '' }}>Work</option>
+                    <label class="block text-sm font-semibold text-navy mb-1.5">
+                        <span x-text="category === 'work' ? 'Employer / Company' : 'Institution'"></span>
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <select name="institution_id" required
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+                        <option value="">— Select —</option>
+                        @foreach($institutions as $inst)
+                            <option value="{{ $inst->id }}" {{ old('institution_id') == $inst->id ? 'selected' : '' }}>
+                                {{ $inst->name }}{{ $inst->destination ? ' — '.$inst->destination->name : '' }}
+                            </option>
+                        @endforeach
                     </select>
+                    @error('institution_id')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                {{-- Name / Title --}}
+                <div>
+                    <label class="block text-sm font-semibold text-navy mb-1.5">
+                        <span x-text="category === 'work' ? 'Job Title / Role' : 'Program Name'"></span>
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text" name="name" value="{{ old('name') }}" required
+                        :placeholder="category === 'work' ? 'e.g. Software Engineer Intern' : 'e.g. BSc Computer Science'"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+                    @error('name')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                {{-- Level / Contract Type --}}
+                <div>
+                    <label class="block text-sm font-semibold text-navy mb-1.5">
+                        <span x-text="category === 'work' ? 'Contract Type' : 'Level'"></span>
+                    </label>
+                    <input type="text" name="level" value="{{ old('level') }}"
+                        :placeholder="category === 'work' ? 'e.g. Full-Time, Part-Time, Internship' : 'e.g. Bachelor\'s, Master\'s, Certificate'"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+                </div>
+
+                {{-- Fees / Salary --}}
+                <div>
+                    <label class="block text-sm font-semibold text-navy mb-1.5">
+                        <span x-text="category === 'work' ? 'Salary / Compensation' : 'Tuition Fees'"></span>
+                    </label>
+                    <input type="text" name="fees" value="{{ old('fees') }}"
+                        :placeholder="category === 'work' ? 'e.g. $3,500/month or Employer Sponsored' : 'e.g. $10,000/year'"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+                </div>
+
+                {{-- Active --}}
+                <div class="flex items-center gap-3 pt-1">
+                    <input type="hidden" name="is_active" value="0">
+                    <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', '1') == '1' ? 'checked' : '' }}
+                        class="w-4 h-4 accent-teal rounded cursor-pointer">
+                    <label for="is_active" class="text-sm font-semibold text-navy cursor-pointer">Show this publicly</label>
                 </div>
             </div>
 
-            {{-- Duration + Fees --}}
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-semibold text-navy mb-1.5">Duration</label>
-                    <input type="text" name="duration" value="{{ old('duration') }}" placeholder="e.g. 4 years, 18 months"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-navy mb-1.5">Fees</label>
-                    <input type="text" name="fees" value="{{ old('fees') }}" placeholder="e.g. $10,000/year"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                </div>
-            </div>
-
-            {{-- Active --}}
-            <div class="flex items-center gap-3">
-                <input type="hidden" name="is_active" value="0">
-                <input type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', '1') == '1' ? 'checked' : '' }}
-                    class="w-4 h-4 accent-teal rounded cursor-pointer">
-                <label for="is_active" class="text-sm font-semibold text-navy cursor-pointer">Show this program publicly</label>
+            <div class="flex gap-3">
+                <button type="submit"
+                    :class="category === 'work'
+                        ? 'bg-indigo-600 hover:bg-indigo-700'
+                        : 'bg-teal hover:bg-teal-light'"
+                    class="text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition">
+                    Save <span x-text="category === 'work' ? 'Work Opportunity' : 'Study Program'"></span>
+                </button>
+                <a href="{{ route('admin.programs.index') }}" class="text-sm text-gray-400 hover:text-navy px-4 py-2.5 transition">Cancel</a>
             </div>
         </div>
 
-        <div class="flex gap-3">
-            <button type="submit" class="bg-teal text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-teal-light transition">Save Program</button>
-            <a href="{{ route('admin.programs.index') }}" class="text-sm text-gray-400 hover:text-navy px-4 py-2.5 transition">Cancel</a>
-        </div>
+        {{-- Keep old('category') selected if validation fails --}}
+        @if(old('category'))
+        <script>document.addEventListener('alpine:init', () => {})</script>
+        @endif
 
     </form>
 
 </x-admin.layouts.app>
+
