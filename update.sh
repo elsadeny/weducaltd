@@ -12,6 +12,9 @@ set -e
 
 APP_NAME="weducaapply"
 APP_DIR="/var/www/$APP_NAME"
+ADMIN_NAME="${ADMIN_NAME:-Admin}"
+ADMIN_EMAIL="${ADMIN_EMAIL:-admin@weducaapply.com}"
+ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin123456}"
 
 echo "================================================="
 echo " Starting Application Update..."
@@ -20,23 +23,36 @@ echo "================================================="
 # Navigate to the application directory
 cd "$APP_DIR" || { echo "Directory $APP_DIR not found. Exiting."; exit 1; }
 
-echo "[1/6] Turning on maintenance mode..."
+echo "[1/7] Turning on maintenance mode..."
 php artisan down || true
 
-echo "[2/6] Pulling latest changes from GitHub..."
+echo "[2/7] Pulling latest changes from GitHub..."
 git pull origin main
 
-echo "[3/6] Installing/Updating Composer dependencies..."
+echo "[3/7] Installing/Updating Composer dependencies..."
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction
 
-echo "[4/6] Installing/Updating NPM dependencies & building assets..."
+echo "[4/7] Installing/Updating NPM dependencies & building assets..."
 npm install
 npm run build
 
-echo "[5/6] Running database migrations..."
+echo "[5/7] Running database migrations..."
 php artisan migrate --force
 
-echo "[6/6] Clearing and caching application state..."
+echo "[6/7] Enforcing single admin user..."
+php artisan tinker --execute="
+\\App\\Models\\User::query()->where('email', '!=', '${ADMIN_EMAIL}')->delete();
+\\App\\Models\\User::updateOrCreate(
+    ['email' => '${ADMIN_EMAIL}'],
+    [
+        'name' => '${ADMIN_NAME}',
+        'password' => \\Illuminate\\Support\\Facades\\Hash::make('${ADMIN_PASSWORD}'),
+        'role' => 'admin',
+    ]
+);
+"
+
+echo "[7/7] Clearing and caching application state..."
 php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache

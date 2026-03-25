@@ -10,7 +10,17 @@ class Institution extends Model
     /** @use HasFactory<\Database\Factories\InstitutionFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'country', 'logo', 'website', 'accreditation'];
+    protected $fillable = ['name', 'destination_id', 'country', 'logo', 'website', 'accreditation'];
+
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }
+
+    public function programs()
+    {
+        return $this->hasMany(Program::class);
+    }
 
     public function applications()
     {

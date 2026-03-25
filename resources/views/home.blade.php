@@ -247,6 +247,8 @@
         </div>
     </section>
 
+    @include('partials.programs-section')
+
     <!-- Destinations -->
     <section id="destinations" class="py-24 bg-navy text-white scroll-mt-20 relative overflow-hidden">
         <!-- Background decorative gradient orbs -->
