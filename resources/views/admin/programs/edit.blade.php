@@ -10,7 +10,7 @@
         @csrf @method('PUT')
         <input type="hidden" name="category" :value="category">
 
-        {{-- Category toggle row --}}
+        {{-- Category toggle --}}
         <div class="flex items-center gap-3">
             <span class="text-sm font-semibold text-navy">Type:</span>
             <button type="button" @click="category = 'study'"
@@ -27,14 +27,12 @@
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
 
-            {{-- Institution --}}
-            <div>
-                <label class="block text-sm font-semibold text-navy mb-1.5">
-                    <span x-text="category === 'work' ? 'Employer / Company' : 'Institution'"></span>
-                    <span class="text-red-400">*</span>
-                </label>
-                <select name="institution_id" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
-                    <option value="">— Select —</option>
+            {{-- STUDY: Institution --}}
+            <div x-show="category === 'study'">
+                <label class="block text-sm font-semibold text-navy mb-1.5">Institution <span class="text-red-400">*</span></label>
+                <select name="institution_id" :required="category === 'study'"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
+                    <option value="">— Select Institution —</option>
                     @foreach($institutions as $inst)
                         <option value="{{ $inst->id }}" {{ old('institution_id', $program->institution_id) == $inst->id ? 'selected' : '' }}>
                             {{ $inst->name }}{{ $inst->destination ? ' — '.$inst->destination->name : '' }}
@@ -42,6 +40,21 @@
                     @endforeach
                 </select>
                 @error('institution_id')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
+            </div>
+
+            {{-- WORK: Destination (Country) --}}
+            <div x-show="category === 'work'" x-cloak>
+                <label class="block text-sm font-semibold text-navy mb-1.5">Target Country <span class="text-red-400">*</span></label>
+                <select name="destination_id" :required="category === 'work'"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none">
+                    <option value="">— Select Country —</option>
+                    @foreach($destinations as $dest)
+                        <option value="{{ $dest->id }}" {{ old('destination_id', $program->destination_id) == $dest->id ? 'selected' : '' }}>
+                            {{ $dest->flag_emoji ?? '' }} {{ $dest->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('destination_id')<p class="text-red-400 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             {{-- Name / Title --}}
@@ -76,6 +89,15 @@
                     class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal/50 focus:border-teal outline-none">
             </div>
 
+            {{-- WORK: Criteria / Requirements --}}
+            <div x-show="category === 'work'" x-cloak>
+                <label class="block text-sm font-semibold text-navy mb-1.5">Eligibility & Requirements</label>
+                <p class="text-xs text-gray-400 mb-2">One requirement per line — shown as a checklist on the site.</p>
+                <textarea name="criteria" rows="5"
+                    placeholder="e.g.&#10;Valid passport&#10;Age 18–35&#10;No criminal record&#10;Basic English proficiency"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 outline-none resize-none font-mono">{{ old('criteria', $program->criteria) }}</textarea>
+            </div>
+
             {{-- Active --}}
             <div class="flex items-center gap-3 pt-1">
                 <input type="hidden" name="is_active" value="0">
@@ -97,4 +119,5 @@
     </form>
 
 </x-admin.layouts.app>
+
 

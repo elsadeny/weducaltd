@@ -49,41 +49,87 @@
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-95"
                             class="snap-center shrink-0 w-80 bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-100 flex flex-col hover:border-teal/30 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+
+                            {{-- Card header --}}
                             <div class="px-6 py-5 {{ $prog->category === 'work' ? 'bg-indigo-50 border-b border-indigo-100' : 'bg-teal/5 border-b border-teal/10' }}">
                                 <div class="flex justify-between items-start">
                                     <span class="inline-block px-3 py-1 rounded-full text-xs font-bold {{ $prog->category === 'work' ? 'bg-indigo-100 text-indigo-700' : 'bg-teal/20 text-teal' }}">
                                         {{ $prog->category === 'work' ? '💼 Work' : '📚 Study' }}
                                     </span>
-                                    @if($prog->institution && $prog->institution->destination)
-                                        <span class="text-2xl" title="{{ $prog->institution->destination->name }}">{{ $prog->institution->destination->flag_emoji }}</span>
+                                    {{-- Flag: for work programs use destination directly; for study use institution's destination --}}
+                                    @php
+                                        $dest = $prog->category === 'work'
+                                            ? ($prog->destination ?? ($prog->institution->destination ?? null))
+                                            : ($prog->institution->destination ?? null);
+                                    @endphp
+                                    @if($dest)
+                                        <span class="text-2xl" title="{{ $dest->name }}">{{ $dest->flag_emoji }}</span>
                                     @endif
                                 </div>
                                 <h3 class="text-xl font-bold text-navy mt-4 line-clamp-2" title="{{ $prog->name }}">{{ $prog->name }}</h3>
                             </div>
 
+                            {{-- Card body --}}
                             <div class="p-6 flex-1 flex flex-col text-sm">
-                                <div class="mb-4">
-                                    <h4 class="font-bold text-gray-700 mb-1">Institution</h4>
-                                    <p class="text-gray-500 truncate" title="{{ $prog->institution->name ?? 'N/A' }}">{{ $prog->institution->name ?? 'N/A' }}</p>
-                                </div>
 
-                                <div class="grid grid-cols-2 gap-4 mb-6">
-                                    @if($prog->level)
-                                    <div>
-                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Level</span>
-                                        <span class="font-medium text-navy">{{ $prog->level }}</span>
+                                @if($prog->category === 'work')
+                                    {{-- Work: Country + salary + criteria checklist --}}
+                                    @if($dest)
+                                    <div class="mb-3">
+                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Country</span>
+                                        <span class="font-medium text-navy">{{ $dest->flag_emoji ?? '' }} {{ $dest->name }}</span>
                                     </div>
                                     @endif
+
                                     @if($prog->fees)
-                                    <div>
-                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Fees</span>
+                                    <div class="mb-4">
+                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Salary</span>
                                         <span class="font-medium text-navy">{{ $prog->fees }}</span>
                                     </div>
                                     @endif
-                                </div>
+
+                                    @if(!empty($prog->criteria))
+                                    <div class="mb-4">
+                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Requirements</span>
+                                        <ul class="space-y-1.5">
+                                            @foreach(array_filter(explode("\n", $prog->criteria)) as $req)
+                                            <li class="flex items-start gap-2 text-gray-600 leading-snug">
+                                                <svg class="w-4 h-4 text-indigo-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                </svg>
+                                                <span>{{ trim($req) }}</span>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @endif
+
+                                @else
+                                    {{-- Study: institution + level + fees --}}
+                                    <div class="mb-4">
+                                        <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Institution</span>
+                                        <p class="text-gray-500 truncate" title="{{ $prog->institution->name ?? 'N/A' }}">{{ $prog->institution->name ?? 'N/A' }}</p>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-4 mb-6">
+                                        @if($prog->level)
+                                        <div>
+                                            <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Level</span>
+                                            <span class="font-medium text-navy">{{ $prog->level }}</span>
+                                        </div>
+                                        @endif
+                                        @if($prog->fees)
+                                        <div>
+                                            <span class="block text-xs font-semibold text-gray-400 uppercase tracking-wider">Fees</span>
+                                            <span class="font-medium text-navy">{{ $prog->fees }}</span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                @endif
 
                                 <div class="mt-auto pt-4 border-t border-gray-100">
-                                    <a href="{{ route('register') }}" class="block w-full py-3 px-4 bg-navy hover:bg-teal text-white text-center font-bold rounded-xl transition-colors duration-300">
+                                    <a href="{{ route('register') }}"
+                                        class="block w-full py-3 px-4 text-white text-center font-bold rounded-xl transition-colors duration-300 {{ $prog->category === 'work' ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-navy hover:bg-teal' }}">
                                         Apply for this {{ $prog->category === 'work' ? 'role' : 'program' }}
                                     </a>
                                 </div>

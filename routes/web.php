@@ -16,7 +16,7 @@ Route::get('/', function () {
     $studyDestinations = \App\Models\Destination::where('category', 'study')->get();
     $workDestinations  = \App\Models\Destination::where('category', 'work')->get();
     $team              = \App\Models\TeamMember::all();
-    $programs          = \App\Models\Program::with('institution.destination')
+    $programs          = \App\Models\Program::with('institution.destination', 'destination')
         ->where('is_active', true)
         ->get();
 
@@ -24,19 +24,40 @@ Route::get('/', function () {
         $needed = 15 - $programs->count();
         $mockPrograms = collect(range(1, $needed))->map(function ($i) {
             $isWork = $i % 2 === 0;
-            return (object) [
-                'name' => $isWork ? "International Skilled Worker Track {$i}" : "Global Study Pathway {$i}",
-                'category' => $isWork ? 'work' : 'study',
-                'level' => $isWork ? 'Professional' : ['Diploma', 'Bachelor', 'Master'][($i - 1) % 3],
-                'fees' => $isWork ? 'Employer Sponsored' : '$' . number_format(6500 + ($i * 350)) . '/year',
-                'institution' => (object) [
-                    'name' => $isWork ? "Global Careers Hub {$i}" : "Weduca Partner Institute {$i}",
-                    'destination' => (object) [
-                        'name' => ['Canada', 'UK', 'Germany', 'Australia', 'USA'][($i - 1) % 5],
-                        'flag_emoji' => ['🇨🇦', '🇬🇧', '🇩🇪', '🇦🇺', '🇺🇸'][($i - 1) % 5],
-                    ],
-                ],
+            $countries = [
+                ['name' => 'Canada',    'flag' => '🇨🇦'],
+                ['name' => 'UK',        'flag' => '🇬🇧'],
+                ['name' => 'Germany',   'flag' => '🇩🇪'],
+                ['name' => 'Australia', 'flag' => '🇦🇺'],
+                ['name' => 'USA',       'flag' => '🇺🇸'],
             ];
+            $c = $countries[($i - 1) % 5];
+            $destObj = (object) ['name' => $c['name'], 'flag_emoji' => $c['flag']];
+
+            if ($isWork) {
+                return (object) [
+                    'name'        => "International Skilled Worker Track {$i}",
+                    'category'    => 'work',
+                    'level'       => 'Full-Time',
+                    'fees'        => '$' . number_format(2500 + ($i * 200)) . '/month',
+                    'criteria'    => "Valid passport\nAge 18–40\nNo criminal record\nBasic English proficiency\nHealth clearance certificate",
+                    'destination' => $destObj,
+                    'institution' => null,
+                ];
+            } else {
+                return (object) [
+                    'name'        => "Global Study Pathway {$i}",
+                    'category'    => 'study',
+                    'level'       => ['Diploma', 'Bachelor', 'Master'][($i - 1) % 3],
+                    'fees'        => '$' . number_format(6500 + ($i * 350)) . '/year',
+                    'criteria'    => null,
+                    'destination' => null,
+                    'institution' => (object) [
+                        'name'        => "Weduca Partner Institute {$i}",
+                        'destination' => $destObj,
+                    ],
+                ];
+            }
         });
 
         $programs = $programs->concat($mockPrograms);
